@@ -145,10 +145,12 @@ testFat {
     finalizedBy 'stopBaseUrlServer'
 }
 
-task initAnt << {
-    // Load the Liberty ant tasks
-    ant.taskdef(resource: "net/wasdev/wlp/ant/antlib.xml",
+task initAnt {
+    doLast {
+        // Load the Liberty ant tasks
+        ant.taskdef(resource: "net/wasdev/wlp/ant/antlib.xml",
                 classpath: configurations.antTasks.asPath)
+    }
 }
 
 // Collects all the files that go into the /usr directory in the right structure

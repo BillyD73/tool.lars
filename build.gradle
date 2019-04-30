@@ -49,6 +49,7 @@ subprojects {
 
     dependencies {
         findbugs 'com.google.code.findbugs:findbugs:3.0.0'
+        compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
     }
     
     sourceSets {
@@ -97,7 +98,7 @@ subprojects {
         group 'verification'
         description 'Start test server and run the fat tests'
         
-        testClassesDir = sourceSets.fat.output.classesDir
+        testClassesDirs = sourceSets.fat.output.classesDirs
         classpath = sourceSets.fat.runtimeClasspath
         
         dependsOn fatClasses
@@ -146,11 +147,14 @@ subprojects {
     
     File testResourcesDir = file('src/fat/testResources')
     def subProj = delegate
+    int counter = 0
     if (testResourcesDir.exists()) {
         testResourcesDir.eachDirRecurse({ dir ->
             if (dir.name.endsWith('.esa') || dir.name.endsWith('.jar') || dir.name.endsWith('.zip')) {
                 String relativeTargetPath = dir.parentFile.absolutePath.minus(testResourcesDir.absolutePath)
-                Task task = task "create-${relativeTargetPath}-${dir.name}" (type: Zip) {
+                //Task task = task "create-${relativeTargetPath}-${dir.name}" (type: Zip) {
+                Task task = task "create-testfat-${counter}" (type: Zip) {
+                    counter++
                     archiveName = dir.name
                     from dir
                     destinationDir = subProj.file('build/test-working/resources' + relativeTargetPath)
@@ -227,21 +231,23 @@ task globalTestReport(type: TestReport) {
 }
 
 // Make the gradle eclipse tools play nicely with this non-java project
-task afterEclipseImport << {
-    Node node = new XmlParser().parse(file('.project'));
-    
-    node.depthFirst().each {
-        if (it.name() == "nature" && it.value() == ["org.eclipse.jdt.core.javanature"]) {
-            it.parent().remove(it)
+task afterEclipseImport {
+    doLast {
+        Node node = new XmlParser().parse(file('.project'));
+
+        node.depthFirst().each {
+            if (it.name() == "nature" && it.value() == ["org.eclipse.jdt.core.javanature"]) {
+                it.parent().remove(it)
+            }
+            if (it.name() == "buildSpec") {
+                it.parent().remove(it)
+            }
         }
-        if (it.name() == "buildSpec") {
-            it.parent().remove(it)
-        }
+
+        XmlNodePrinter printer = new XmlNodePrinter(new PrintWriter(file('.project')))
+        printer.preserveWhitespace = true
+        printer.print(node)
     }
-    
-    XmlNodePrinter printer = new XmlNodePrinter(new PrintWriter(file('.project')))
-    printer.preserveWhitespace = true
-    printer.print(node)
 }
 
 // Function to load configuration properties from a normal

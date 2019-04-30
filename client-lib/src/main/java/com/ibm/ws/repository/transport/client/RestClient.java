@@ -488,7 +488,6 @@ public class RestClient extends AbstractRepositoryClient implements RepositoryRe
                 connection.setRequestProperty("Authorization", basicAuth);
             }
         }
-
         connection.setRequestMethod("GET");
         testResponseCode(connection);
         return connection.getInputStream();

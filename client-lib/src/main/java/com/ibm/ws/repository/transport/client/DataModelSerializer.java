@@ -512,11 +512,13 @@ public class DataModelSerializer {
         // Make a new instance and make sure we know how to process it
         T targetObject = null;
         try {
-            targetObject = typeOfObject.newInstance();
+            targetObject = typeOfObject.getConstructor().newInstance();
         } catch (InstantiationException e) {
             throw new IllegalStateException("Data Model Error: unable to instantiate data model element " + typeOfObject.getName(), e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException("Data Model Error: unable to instantiate data model element " + typeOfObject.getName(), e);
+        } catch (NoSuchMethodException | InvocationTargetException e) {
+            throw new IllegalStateException("Error: " + e);
         }
 
         if (verify.equals(Verification.VERIFY) && targetObject instanceof VersionableContent) {
