@@ -21,4 +21,5 @@ build
 .idea/
 
 # MacOS stuff
+.DS_Store
 */.DS_Store
