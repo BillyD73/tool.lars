@@ -9,7 +9,7 @@ ext {
 
 	// Test/compile time only dependencies
 	// Fixed at 1.39 because jmockit frequently make breaking API changes
-	jmockit_version="1.39"
+	jmockit_version="1.43"
 	hamcrest_version="1.+"
 	junit_version="4.+"
 	httpclient_version="4.4.+"
