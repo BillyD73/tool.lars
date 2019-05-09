@@ -39,6 +39,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.ibm.ws.lars.upload.cli.ClientException.HelpDisplay;
 import com.ibm.ws.massive.esa.MassiveEsa;
 import com.ibm.ws.repository.common.enums.State;
@@ -271,7 +273,7 @@ public class Main {
         List<File> files = new ArrayList<File>();
         for (String arg : remainingArgs) {
 
-            File argFile = new File(arg);
+            File argFile = new File(FilenameUtils.getName(arg));
             // If we encounter a directory then add its contents
             if (argFile.isDirectory()) {
                 File[] directoryContents = argFile.listFiles(ESA_FILTER);
@@ -522,7 +524,7 @@ public class Main {
         boolean promptForPassword = false;
 
         if (options.containsKey(Option.CONFIG_FILE)) {
-            File configFile = new File(options.get(Option.CONFIG_FILE));
+            File configFile = new File(FilenameUtils.getName(options.get(Option.CONFIG_FILE)));
             try (InputStream in = new FileInputStream(configFile)) {
                 Properties props = new Properties();
                 props.load(in);
