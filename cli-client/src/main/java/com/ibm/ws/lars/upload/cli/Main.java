@@ -16,15 +16,7 @@
 
 package com.ibm.ws.lars.upload.cli;
 
-import java.io.BufferedReader;
-import java.io.Console;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -272,8 +264,7 @@ public class Main {
         RepositoryConnection repoConnection = createRepoConnection();
         List<File> files = new ArrayList<File>();
         for (String arg : remainingArgs) {
-
-            File argFile = new File(FilenameUtils.getName(arg));
+            File argFile = new File(arg);
             // If we encounter a directory then add its contents
             if (argFile.isDirectory()) {
                 File[] directoryContents = argFile.listFiles(ESA_FILTER);
@@ -454,7 +445,12 @@ public class Main {
             remainingArgs = doFind(remainingArgs);
         }
 
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(input));
+        BufferedReader inputReader = null;
+        try {
+            inputReader = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new ClientException(e.getMessage(), 1, HelpDisplay.NO_HELP, e);
+        }
 
         for (String id : remainingArgs) {
             RepositoryResourceWritable toDelete = null;

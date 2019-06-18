@@ -1,0 +1,10 @@
+<FindBugsFilter>
+    <!-- See http://findbugs.sourceforge.net/manual/filter.html for details
+        of the syntax of this file -->
+
+    <!-- Looks like a false positive, using ':' in a for loop to iterate through the list -->
+    <Match>
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" />
+    </Match>
+
+</FindBugsFilter>

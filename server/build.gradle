@@ -80,7 +80,6 @@ dependencies {
     providedCompile fileTree(dir: "${libertyRoot}/dev/api/spec", include: requiredSpecJars)
     providedCompile fileTree(dir: "${libertyRoot}/dev/api/third-party", include: 'com.ibm.websphere.appserver.thirdparty.jaxrs_*.jar')
     compileOnly 'com.github.spotbugs:spotbugs-annotations:3.1.12'
-    //compileOnly 'net.jcip:jcip-annotations:1.0' BD
 
     testCompile group:'junit', name:'junit', version:junit_version
     testCompile group:'org.hamcrest', name:'hamcrest-library', version:hamcrest_version

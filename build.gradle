@@ -15,7 +15,7 @@
 *******************************************************************************/
 
 plugins {
-    id "com.github.spotbugs" version "1.7.1" apply false
+    id "com.github.spotbugs" version "1.7.1" apply true
 }
 
 apply plugin: 'base'
@@ -66,6 +66,7 @@ subprojects {
     
     spotbugs {
         toolVersion = '3.1.8'
+        //spotbugsTest.enabled = false;
         sourceSets = [sourceSets.main]
         def excludeFile = file("findbugs.exclude.xml")
         if (excludeFile.exists()) {

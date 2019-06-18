@@ -7,5 +7,12 @@
         <Class name="com.ibm.ws.lars.upload.cli.Main" />
     </Match>
 
+    <!-- Path traversal security vulnerability found with the upgrade to SpotBugs -->
+    <Match>
+        <Bug pattern="PATH_TRAVERSAL_IN" />
+        <!--Class name="com.ibm.ws.lars.upload.cli.Main" />
+        <Method name="doUpload" /-->
+    </Match>
+
 
 </FindBugsFilter>

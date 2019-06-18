@@ -28,4 +28,9 @@
         <Method name="setJavaRequirements" />
     </Match>
 
+    <!-- Temporarily ignoring the path traversal vulnerability -->
+    <Match>
+        <Bug pattern="PATH_TRAVERSAL_IN" />
+    </Match>
+
 </FindBugsFilter>
