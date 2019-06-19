@@ -14,10 +14,6 @@
 * limitations under the License.
 *******************************************************************************/
 
-plugins {
-    id "com.github.spotbugs" version "1.7.1"
-}
-
 apply plugin: 'base'
 apply plugin: 'eclipse'
 
@@ -31,13 +27,14 @@ boolean haveAnyTestsFailed = false;
 
 loadProperties("${rootProject.rootDir}/test-utils/src/main/resources/config.properties");
 
+
 // General configuration for all projects
 // Set up support for fatTests which rely on a running test server
 subprojects {
 
     apply plugin: 'java'
     apply plugin: 'eclipse'
-    apply plugin: 'com.github.spotbugs'
+    apply plugin: 'findbugs'
     
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7    
@@ -51,11 +48,8 @@ subprojects {
     }
 
     dependencies {
-        compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '3.1.8'
-        spotbugsPlugins group: 'com.h3xstream.findsecbugs', name: 'findsecbugs-plugin', version: '1.8.0'
-        implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+        findbugs 'com.google.code.findbugs:findbugs:3.0.0'
     }
-
     
     sourceSets {
         fat {
@@ -64,9 +58,7 @@ subprojects {
         }
     }
     
-    spotbugs {
-        toolVersion = '3.1.8'
-        //spotbugsTest.enabled = false;
+    findbugs {
         sourceSets = [sourceSets.main]
         def excludeFile = file("findbugs.exclude.xml")
         if (excludeFile.exists()) {
@@ -74,7 +66,7 @@ subprojects {
         }
     }
     
-    spotbugsMain {
+    findbugsMain {
         reports {
             xml.enabled = false
             html.enabled = true
@@ -105,7 +97,7 @@ subprojects {
         group 'verification'
         description 'Start test server and run the fat tests'
         
-        testClassesDirs = sourceSets.fat.output.classesDirs
+        testClassesDir = sourceSets.fat.output.classesDir
         classpath = sourceSets.fat.runtimeClasspath
         
         dependsOn fatClasses
@@ -154,14 +146,11 @@ subprojects {
     
     File testResourcesDir = file('src/fat/testResources')
     def subProj = delegate
-    int counter = 0
     if (testResourcesDir.exists()) {
         testResourcesDir.eachDirRecurse({ dir ->
             if (dir.name.endsWith('.esa') || dir.name.endsWith('.jar') || dir.name.endsWith('.zip')) {
                 String relativeTargetPath = dir.parentFile.absolutePath.minus(testResourcesDir.absolutePath)
-                //Task task = task "create-${relativeTargetPath}-${dir.name}" (type: Zip) {
-                Task task = task "create-testfat-${counter}" (type: Zip) {
-                    counter++
+                Task task = task "create-${relativeTargetPath}-${dir.name}" (type: Zip) {
                     archiveName = dir.name
                     from dir
                     destinationDir = subProj.file('build/test-working/resources' + relativeTargetPath)
@@ -238,23 +227,21 @@ task globalTestReport(type: TestReport) {
 }
 
 // Make the gradle eclipse tools play nicely with this non-java project
-task afterEclipseImport {
-    doLast {
-        Node node = new XmlParser().parse(file('.project'));
-
-        node.depthFirst().each {
-            if (it.name() == "nature" && it.value() == ["org.eclipse.jdt.core.javanature"]) {
-                it.parent().remove(it)
-            }
-            if (it.name() == "buildSpec") {
-                it.parent().remove(it)
-            }
+task afterEclipseImport << {
+    Node node = new XmlParser().parse(file('.project'));
+    
+    node.depthFirst().each {
+        if (it.name() == "nature" && it.value() == ["org.eclipse.jdt.core.javanature"]) {
+            it.parent().remove(it)
         }
-
-        XmlNodePrinter printer = new XmlNodePrinter(new PrintWriter(file('.project')))
-        printer.preserveWhitespace = true
-        printer.print(node)
+        if (it.name() == "buildSpec") {
+            it.parent().remove(it)
+        }
     }
+    
+    XmlNodePrinter printer = new XmlNodePrinter(new PrintWriter(file('.project')))
+    printer.preserveWhitespace = true
+    printer.print(node)
 }
 
 // Function to load configuration properties from a normal

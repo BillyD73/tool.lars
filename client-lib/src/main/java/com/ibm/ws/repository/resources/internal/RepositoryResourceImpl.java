@@ -43,8 +43,6 @@ import java.util.zip.CheckedInputStream;
 import org.osgi.framework.Version;
 import org.osgi.framework.VersionRange;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.ibm.ws.repository.common.enums.AttachmentLinkType;
 import com.ibm.ws.repository.common.enums.AttachmentType;
 import com.ibm.ws.repository.common.enums.DisplayPolicy;
@@ -1242,11 +1240,7 @@ public abstract class RepositoryResourceImpl implements RepositoryResourceWritab
         for (AttachmentResourceImpl at : attachments) {
             AttachmentLinkType linkType = at.getLinkType();
             if ((null == linkType) && (at.getURL() != null)) {
-                final File tempFile = new File(".",getId() + "_" + at.getName());
-               // String temp = getId() + "_" + at.getName();
-                //final File tempFile = new File(FilenameUtils.normalize(temp));
-                //final File tempFile = new File(FilenameUtils.normalize(getId() + "_" + at.getName()));
-                //final File tempFile = new File(getId() + "_" + FilenameUtils.normalize(at.getName()));
+                final File tempFile = new File(getId() + "_" + at.getName());
 
                 try {
                     // Why do we have to specify a return type for the run method and paramatize
