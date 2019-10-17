@@ -91,7 +91,6 @@ public class MongoProducer {
     public MongoClient createMongo() {
         MongoClientOptions opts;
         if(requestedWriteConcern != null) {
-            //Begin fix
             WriteConcern wc;
             switch(requestedWriteConcern)
             {
@@ -131,13 +130,8 @@ public class MongoProducer {
                 default:
                     wc = WriteConcern.ACKNOWLEDGED;
             }
-            //WriteConcern wc = WriteConcern.JOURNALED; //WORKS!
-            //WriteConcern wc = new WriteConcern("majority", 60000, false, true); //WORKS!
-            //WriteConcern wc = new WriteConcern(requestedWriteConcern); //DOES NOT WORK
-            //WriteConcern wc = WriteConcern.requestedWriteConcern; //DOES NOT WORK
             opts = new MongoClientOptions.Builder().writeConcern(wc).build();
             logger.info("createMongo: using write concern " + requestedWriteConcern);
-            //End fix
         } else {
             opts = new MongoClientOptions.Builder().build();
             logger.info("createMongo: using default write concern");
