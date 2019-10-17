@@ -16,13 +16,3 @@ build
 /.project
 /.settings
 /gradle.properties
-
-# IntelliJ stuff
-.idea/
-
-# Java stuff
-*.class
-
-# MacOS stuff
-.DS_Store
-*/.DS_Store

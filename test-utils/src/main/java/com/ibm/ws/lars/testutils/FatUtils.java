@@ -18,10 +18,10 @@ package com.ibm.ws.lars.testutils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.net.UnknownHostException;
 
 import com.ibm.ws.lars.testutils.fixtures.LarsRepositoryFixture;
 import com.ibm.ws.lars.testutils.fixtures.MassiveRepositoryFixture;
@@ -148,16 +148,12 @@ public class FatUtils {
      * We never explicitly close the client and rely on the connection being closed when the JVM
      * exits.
      */
-    public static synchronized DB getMongoDB() {
+    public static synchronized DB getMongoDB() throws UnknownHostException {
         if (fatDB == null) {
             MongoClient mongoClient;
-            try {
-                mongoClient = new MongoClient("localhost:" + FatUtils.DB_PORT);
-                mongoClient.setWriteConcern(WriteConcern.ACKNOWLEDGED);
-                fatDB = mongoClient.getDB(FatUtils.TEST_DB_NAME);
-            } catch (UnknownHostException e) {
-                throw new RuntimeException("Unknown hostname connecting to Mongo DB", e);
-            }
+            mongoClient = new MongoClient("localhost:" + FatUtils.DB_PORT);
+            mongoClient.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+            fatDB = mongoClient.getDB(FatUtils.TEST_DB_NAME);
         }
 
         return fatDB;

@@ -1,5 +1,5 @@
 <FindBugsFilter>
-    <!-- See http://findbugs.sourceforge.net/manual/filter.html for details
+    <!-- See http://findbugs.sourceforge.net/manual/filter.html for details 
         of the syntax of this file -->
 
     <!-- Equals on model classes first use isEquivalent which checks type -->
@@ -31,23 +31,6 @@
         <Bug pattern="SF_SWITCH_FALLTHROUGH" />
         <Class name="com.ibm.ws.repository.strategies.writeable.AddThenDeleteStrategy" />
         <Method name="uploadAsset" />
-    </Match>
-
-    <!-- Path traversal security vulnerability found with the upgrade to SpotBugs, temporarily excluded -->
-    <Match>
-        <Bug pattern="PATH_TRAVERSAL_IN" />
-        <!--Class name="com.ibm.ws.lars.upload.cli.Main" />
-        <Method name="doUpload" /-->
-    </Match>
-
-    <!-- Temporarily excluding URLConnection bugs -->
-    <Match>
-        <Bug pattern="URLCONNECTION_SSRF_FD" />
-    </Match>
-
-    <!-- This warning should not be necessary -->
-    <Match>
-        <Bug pattern="EQ_DOESNT_OVERRIDE_EQUALS" />
     </Match>
 
 </FindBugsFilter>

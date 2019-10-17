@@ -189,7 +189,7 @@ public class RepositoryRESTResource {
     public Response getAsset(@PathParam("assetId") String assetId, @Context UriInfo uriInfo, @Context SecurityContext sc) throws InvalidIdException, NonExistentArtefactException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getAsset called with id of '" + assetId.replaceAll("[\r\n]","") + "'");
+            logger.fine("getAsset called with id of '" + assetId + "'");
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -211,7 +211,7 @@ public class RepositoryRESTResource {
     public Response deleteAsset(@PathParam("assetId") String assetId) throws InvalidIdException, NonExistentArtefactException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("deleteAsset called with id of " + assetId.replaceAll("[\r\n]",""));
+            logger.fine("deleteAsset called with id of " + assetId);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -267,7 +267,7 @@ public class RepositoryRESTResource {
                                                 @Context UriInfo uriInfo) throws InvalidJsonAssetException, InvalidIdException, AssetPersistenceException, NonExistentArtefactException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("createAttachmentWithContent called, name: " + name.replaceAll("[\r\n]","") + " assetId: " + assetId.replaceAll("[\r\n]",""));
+            logger.fine("createAttachmentWithContent called, name: " + name + " assetId: " + assetId);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -307,8 +307,8 @@ public class RepositoryRESTResource {
                                               @Context UriInfo uriInfo) throws InvalidJsonAssetException, InvalidIdException, AssetPersistenceException, NonExistentArtefactException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("createAttachmentNoContent called, name: " + name.replaceAll("[\r\n]","")
-                        + " assetId: " + assetId.replaceAll("[\r\n]","") + " json content:\n" + bodyJSON.replaceAll("[\r\n]",""));
+            logger.fine("createAttachmentNoContent called, name: " + name
+                        + " assetId: " + assetId + " json content:\n" + bodyJSON);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -327,7 +327,7 @@ public class RepositoryRESTResource {
     public Response getAttachments(@PathParam("assetId") String assetId, @Context UriInfo uriInfo,
                                    @Context SecurityContext sc) throws InvalidIdException, NonExistentArtefactException, JsonProcessingException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getAttachments called for assetId: " + assetId.replaceAll("[\r\n]",""));
+            logger.fine("getAttachments called for assetId: " + assetId);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -352,7 +352,7 @@ public class RepositoryRESTResource {
                                      @PathParam("attachmentId") String attachmentId) throws InvalidIdException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("deleteAttachment called for assetId: " + assetId.replaceAll("[\r\n]","") + " and attachmentId: " + attachmentId.replaceAll("[\r\n]",""));
+            logger.fine("deleteAttachment called for assetId: " + assetId + " and attachmentId: " + attachmentId);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -372,8 +372,8 @@ public class RepositoryRESTResource {
                                          @Context SecurityContext sc) throws InvalidIdException, NonExistentArtefactException {
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getAttachmentContent called for assetId: " + assetId.replaceAll("[\r\n]","")
-                        + " attachmentId: " + attachmentId.replaceAll("[\r\n]","") + " name: " + name.replaceAll("[\r\n]",""));
+            logger.fine("getAttachmentContent called for assetId: " + assetId
+                        + " attachmentId: " + attachmentId + " name: " + name);
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);
@@ -403,7 +403,7 @@ public class RepositoryRESTResource {
     @RolesAllowed(ADMIN_ROLE)
     public Response updateAssetState(@PathParam("assetId") String assetId, String actionJSON) throws NonExistentArtefactException, RepositoryResourceLifecycleException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("updateAssetState called for assetId: " + assetId.replaceAll("[\r\n]","") + " action: " + actionJSON.replaceAll("[\r\n]",""));
+            logger.fine("updateAssetState called for assetId: " + assetId + " action: " + actionJSON);
         }
 
         Asset.StateAction action = getStateAction(actionJSON);
@@ -422,7 +422,7 @@ public class RepositoryRESTResource {
     public Response getAssetReviews(@PathParam("assetId") String assetId, @Context UriInfo uriInfo,
                                     @Context SecurityContext sc) throws InvalidIdException, NonExistentArtefactException {
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getAssetReviews called with id of '" + assetId.replaceAll("[\r\n]","") + "'");
+            logger.fine("getAssetReviews called with id of '" + assetId + "'");
         }
 
         sanitiseId(assetId, ArtefactType.ASSET);

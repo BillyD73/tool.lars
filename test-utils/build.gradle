@@ -25,7 +25,7 @@ dependencies {
     compile project(':client-lib')
 }
 
-spotbugsMain {
+findbugsMain {
     enabled = false
 }
 

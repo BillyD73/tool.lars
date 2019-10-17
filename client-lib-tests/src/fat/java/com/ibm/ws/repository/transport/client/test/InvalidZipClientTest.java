@@ -52,7 +52,7 @@ public class InvalidZipClientTest {
             fail("An exception should have been thrown as the repo should not be reachable");
         } catch (IOException e) {
             assertTrue("Wrong exception messages,  expected \"error in opening zip file\" but got \"" + e.getMessage() + "\"",
-                       e.getMessage().contains("error in opening zip file") || e.getMessage().contains("END header not found"));
+                       e.getMessage().contains("error in opening zip file"));
         }
     }
 }
